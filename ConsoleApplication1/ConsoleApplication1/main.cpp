@@ -1,11 +1,13 @@
 #include <iostream>
+#include <string>
 
 
 int main() {
-    int number = 0;
+    std::string numberStr = "";
     std::cout << "Please enter your number : ";
-    std::cin >> number;
-    if (number < 0) {
+    std::cin >> numberStr;
+    int number = std::atoi(numberStr.c_str());
+    if (number < 0 || std::to_string(number) != numberStr) {
         std::cout << "INVALID INPUT";
         return 1;
     }
