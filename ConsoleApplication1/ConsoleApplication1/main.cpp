@@ -1,29 +1,37 @@
 #include <iostream>
-#include <string>
 
 #define SPACE " "
+#define MAX_PAD 5
 
-std::string pad(int number);
+void pad(int number);
 
 int main() {
     for (int i = 1; i <= 11; i++) {
         for (int j = 1; j <= 11; j++) {
-            std::cout << i * j << pad(i * j);
+            std::cout << i * j;
+            pad(i * j);
         }
         std::cout << std::endl;
     }
     return 0;
 }
 
-std::string pad(int number) {
+///IMPORTANT NOTE, THIS FUNCTION IS FOR VISUAL PURPOSES ALONE
+/*
+* Outputs spaces to cout to provide padding inbetween outputs for better visual output
+* :Param number: number to be printed
+* :Return: None
+*/
+void pad(int number) {
     std::string spaces = "";
-    int count = 0;
+    int numberLength = 0;
+    //Calculating length of number
     while (number != 0) {
         number /= 10;
-        count++;
+        numberLength++;
     }
-    for (int i = 0; i < 5 - count; i++) {
-        spaces += " ";
+    //Outputting the proper amount of padding spaces based on number length
+    for (int i = 0; i < MAX_PAD - numberLength; i++) {
+        std::cout << SPACE;
     }
-    return spaces;
 }
