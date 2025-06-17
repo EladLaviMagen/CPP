@@ -1,6 +1,24 @@
 #include <iostream>
 
-bool isPrime(int number);
+/*
+ * Checks if number is a prime number
+ * :Param number: The number to check
+ * :Return: true if number is prime, otherwise false
+ */
+bool isPrime(int number) {
+    // Special cases checks :
+    // 1 is a special number but it not a prime
+    if (number == 1) {
+        return false;
+    }
+    // The primality check, using the complexity - sqrt(n) method
+    for (int i = 2; i <= std::sqrt(number); i++) {
+        if (number % i == 0) {
+            return false;
+        }
+    }
+    return true;
+}
 
 int main() {
     int number = 0;
@@ -18,26 +36,4 @@ int main() {
     return 0;
 }
 
-/*
-* Checks if number is a prime number
-* :Param number: The number to check
-* :Return: true if number is prime, otherwise false
-*/
-bool isPrime(int number) {
-    //Special cases checks :
-    //1 is a special number but it not a prime
-    if (number == 1) {
-        return false;
-    }
-    //For efficiency, check if number is even and return false if it is
-    if (!(number & 1)) {
-        return false;
-    }
-    //The actual primality check for odd numbers, using the complexity - sqrt(n) method
-    for (int i = 3; i <= std::sqrt(number); i+=2) {
-        if (number % i == 0) {
-            return false;
-        }
-    }
-    return true;
-}
+
