@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 
-
+#define SPACE " "
 
 std::string pad(int number);
 
@@ -12,13 +12,18 @@ int main() {
         }
         std::cout << std::endl;
     }
+    return 0;
 }
 
 std::string pad(int number) {
     std::string spaces = "";
+    int count = 0;
     while (number != 0) {
         number /= 10;
-        spaces[spaces.length() - 1] = '\0';
+        count++;
+    }
+    for (int i = 0; i < 5 - count; i++) {
+        spaces += " ";
     }
     return spaces;
 }
