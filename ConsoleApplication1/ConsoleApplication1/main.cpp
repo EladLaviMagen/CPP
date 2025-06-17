@@ -1,5 +1,7 @@
 #include <iostream>
 
+#define END_INPUT 10
+
 /*
  * Checks if number is a prime number
  * :Param number: The number to check
@@ -20,19 +22,43 @@ bool isPrime(int number) {
     return true;
 }
 
+/*
+* Gets primes and stores them in an array
+* :Param arr: Array pointer for the array to store the primes in
+* :Param size: Size of array, as well as the number of primes to collect
+* :Return: The array, filled with the found primes
+*/
+int* getPrimes(int* arr, int size) {
+    int index = 0;
+    while (index < size) {
+        int number = std::rand();
+        //The 2 lines below ensure that number is always odd
+        number = number >> 1;
+        number += 1;
+        if (isPrime(number)) {
+            arr[index] = number;
+            index++;
+        }
+    }
+    return arr;
+}
+
+
 int main() {
-    int number = 0;
-    std::cout << "Enter number to check if it's prime : ";
-    std::cin >> number;
-    if (number < 0) {
+    int numberOfPrimes = 0;
+    std::cout << "Enter number of primes : ";
+    std::cin >> numberOfPrimes;
+    if (numberOfPrimes < 0 || std::cin.peek() != END_INPUT) {
         std::cout << "LEAVE ME ALONE YOU MALICIOUS USERS";
         return 1;
     }
-    if (isPrime(number)) {
-        std::cout << "P R I M E" << std::endl;
-    } else {
-        std::cout << "Not prime" << std::endl;
+    int* primeArray = new int[numberOfPrimes];
+    primeArray = getPrimes(primeArray, numberOfPrimes);
+    std::cout << "Primes : " << std::endl;
+    for (int i = 0; i < numberOfPrimes; i++) {
+        std::cout << primeArray[i] << "  ";
     }
+    delete[] primeArray;
     return 0;
 }
 
