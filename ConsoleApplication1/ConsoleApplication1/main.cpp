@@ -24,24 +24,22 @@ bool isPrime(int number) {
 
 /*
 * Gets primes and stores them in an array
-* :Param arr: Array pointer for the array to store the primes in
+* :Param arr: [OUT] Array pointer for the array to store the primes in
 * :Param size: Size of array, as well as the number of primes to collect
 * :Return: The array, filled with the found primes
 */
-int* getPrimes(int* arr, int size) {
-    if (arr == nullptr) {
-        return nullptr;
-    }
-    int index = 0;
-    int counter = 2;
-    while (index < size) {
-        if (isPrime(counter)) {
-            arr[index] = counter;
-            index++;
+void getPrimes(int* arr, int size) {
+    if (arr != nullptr) {
+        int numbersInserted = 0;
+        int numberCounter = 2;
+        while (numbersInserted < size) {
+            if (isPrime(numberCounter)) {
+                arr[numbersInserted] = numberCounter;
+                numbersInserted++;
+            }
+            numberCounter++;
         }
-        counter++;
     }
-    return arr;
 }
 
 
@@ -54,7 +52,7 @@ int main() {
         return 1;
     }
     int* primeArray = new int[numberOfPrimes];
-    primeArray = getPrimes(primeArray, numberOfPrimes);
+    getPrimes(primeArray, numberOfPrimes);
     std::cout << "Primes : " << std::endl;
     for (int i = 0; i < numberOfPrimes; i++) {
         std::cout << primeArray[i] << "  ";
