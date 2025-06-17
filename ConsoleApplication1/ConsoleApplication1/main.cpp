@@ -29,16 +29,17 @@ bool isPrime(int number) {
 * :Return: The array, filled with the found primes
 */
 int* getPrimes(int* arr, int size) {
+    if (arr == nullptr) {
+        return nullptr;
+    }
     int index = 0;
+    int counter = 2;
     while (index < size) {
-        int number = std::rand();
-        //The 2 lines below ensure that number is always odd
-        number = number >> 1;
-        number += 1;
-        if (isPrime(number)) {
-            arr[index] = number;
+        if (isPrime(counter)) {
+            arr[index] = counter;
             index++;
         }
+        counter++;
     }
     return arr;
 }
