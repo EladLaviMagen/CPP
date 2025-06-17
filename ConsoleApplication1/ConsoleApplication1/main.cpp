@@ -2,7 +2,7 @@
 
 
 int main() {
-    int number = -1;
+    int number = 0;
     std::cout << "Please enter your number : ";
     std::cin >> number;
     if (number < 0) {
