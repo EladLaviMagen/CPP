@@ -45,10 +45,10 @@ void getPrimes(int* arr, int size) {
 
     
 /*
-* Inputs a valid (positive) number from user
-* :Return: The number inputted
+* Inputs a positive number from user
+* :Return: The number inputted or ERROR if invalid input
 */
-int getValidNumberFromUser() {
+int getPositiveNumberFromUser() {
     int number = 0;
     std::cout << "Enter number of primes : ";
     std::cin >> number;
@@ -60,7 +60,7 @@ int getValidNumberFromUser() {
 }
 
 int main() {
-    int numberOfPrimes = getValidNumberFromUser();
+    int numberOfPrimes = getPositiveNumberFromUser();
     if (numberOfPrimes == ERROR) {
         return 1;
     }
