@@ -1,6 +1,7 @@
 #include <iostream>
 
 #define END_INPUT 10
+#define ERROR -1
 
 /*
  * Checks if number is a prime number
@@ -26,7 +27,7 @@ bool isPrime(int number) {
 * Gets primes and stores them in an array
 * :Param arr: [OUT] Array pointer for the array to store the primes in
 * :Param size: Size of array, as well as the number of primes to collect
-* :Return: None
+* :Return: The array, filled with the found primes
 */
 void getPrimes(int* arr, int size) {
     if (arr != nullptr) {
@@ -42,19 +43,27 @@ void getPrimes(int* arr, int size) {
     }
 }
 
+    
 /*
-* Inputs a number from user
+* Inputs a valid (positive) number from user
 * :Return: The number inputted
 */
-int getNumberFromUser() {
+int getValidNumberFromUser() {
     int number = 0;
     std::cout << "Enter number of primes : ";
     std::cin >> number;
+    if (number < 0 || std::cin.peek() != END_INPUT) {
+        std::cout << "LEAVE ME ALONE YOU MALICIOUS USERS";
+        return ERROR;
+    }
     return number;
 }
 
 int main() {
-    int numberOfPrimes = getNumberFromUser();
+    int numberOfPrimes = getValidNumberFromUser();
+    if (numberOfPrimes == ERROR) {
+        return 1;
+    }
     int* primeArray = new int[numberOfPrimes];
     getPrimes(primeArray, numberOfPrimes);
     std::cout << "Primes : " << std::endl;
