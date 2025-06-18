@@ -10,11 +10,6 @@ ComplexNumber::ComplexNumber(double a, double b) {
     this->m_imaginaryVal = b;
 }
 
-ComplexNumber::~ComplexNumber() {
-    this->m_realVal = 0;
-    this->m_imaginaryVal = 0;
-}
-
 double ComplexNumber::getReal() const {
     return this->m_realVal;
 }
@@ -32,22 +27,22 @@ void ComplexNumber::setImg(double value) {
 }
 
 bool ComplexNumber::operator==(const ComplexNumber& other) const {
-    return this->m_imaginaryVal == other.getImg() && this->m_realVal == other.getReal();
+    return this->getImg() == other.getImg() && this->getReal() == other.getReal();
 }
 
 ComplexNumber ComplexNumber::operator+(const ComplexNumber& other) const {
-    return ComplexNumber(this->m_realVal + other.getReal(), this->m_imaginaryVal + other.getImg());
+    return ComplexNumber(this->getReal() + other.getReal(), this->getImg() + other.getImg());
 }
 
 ComplexNumber ComplexNumber::operator-(const ComplexNumber& other) const {
-    return ComplexNumber(this->m_realVal - other.getReal(), this->m_imaginaryVal - other.getImg());
+    return ComplexNumber(this->getReal() - other.getReal(), this->getImg() - other.getImg());
 }
 ComplexNumber ComplexNumber::operator*(const ComplexNumber& other) const {
-    double real = this->m_realVal * other.getReal();
-    //Subtructing this result from real because i * i = -1
-    real -= this->m_imaginaryVal * other.getImg();
-    double imaginary = this->m_imaginaryVal * other.getReal();
-    imaginary += this->m_realVal * other.getImg();
+    double real = this->getReal() * other.getReal()
+        //Subtructing this because i * i = -1
+        - this->getImg() * other.getImg();
+    double imaginary = this->getImg() * other.getReal()
+        + this->getReal() * other.getImg();
     return ComplexNumber(real, imaginary);
 }
 

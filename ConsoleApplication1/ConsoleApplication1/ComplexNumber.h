@@ -15,8 +15,6 @@ class ComplexNumber {
     */
     ComplexNumber(double a, double b);
 
-    ~ComplexNumber();
-
     //Getters for real and imaginary values
     double getReal() const;
     double getImg() const;
