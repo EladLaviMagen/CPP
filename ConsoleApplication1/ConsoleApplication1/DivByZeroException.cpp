@@ -2,7 +2,7 @@
 
 
 DivByZeroException::DivByZeroException() {
-    m_error = ERROR_STRING;
+    m_error = DIVBYZERO_ERROR_STRING;
 }
 
 

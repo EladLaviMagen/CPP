@@ -21,10 +21,10 @@ int main()
             try {
                 std::cout << "Result is : " << Calculator::calculate(firstNumber, action, secondNumber) << std::endl;
             }
-            catch (DivByZeroException error) {
+            catch (DivByZeroException& error) {
                 std::cout << error.what() << std::endl;
             }
-            catch (UnknownOperatorException error) {
+            catch (UnknownOperatorException& error) {
                 std::cout << error.what() << std::endl;
             }
         }

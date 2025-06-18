@@ -24,19 +24,15 @@ double Calculator::calculate(double firstNum, char action, double secondNum) {
     switch (action) {
     case ADD: {
         return add(firstNum, secondNum);
-        break;
     }
     case SUBTRUCT: {
         return subtruct(firstNum, secondNum);
-        break;
     }
     case MULTIPLY: {
         return multiply(firstNum, secondNum);
-        break;
     }
     case DIVIDE: {
         return divide(firstNum, secondNum);
-        break;
     }
     default: {
         std::string error = "Calculator has no implemetation for operator : ";
