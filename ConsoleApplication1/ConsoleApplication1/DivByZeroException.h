@@ -2,7 +2,7 @@
 #include <exception>
 #include <string>
 
-#define DIVBYZERO_ERROR_STRING "DIVISION BY 0 NOT ALLOWED"
+#define DIV_BY_ZERO_ERROR_STRING "DIVISION BY 0 NOT ALLOWED"
 
 class DivByZeroException : public std::exception {
   public:
