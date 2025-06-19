@@ -1,5 +1,10 @@
 #include "BasicString.h"
 
+BasicString::BasicString(const char* string) {
+    this->m_string = (char*)malloc(sizeof(char) * strlen(string) + 1);
+    strncpy_s(this->m_string, string);
+}
+
 int BasicString::insert(int index, const char ch) {
     if (index > this->length()) {
         return OUT_OF_RANGE;
@@ -22,7 +27,7 @@ int BasicString::insert(int index, const char* strToInsert) {
     for (int i = this->length() - 1; i <= index; i--) {
         m_string[i + strlen(strToInsert)] = m_string[i];
     }
-    for (int i = 0; i < strlen(strToInsert); i++) {
+    for (unsigned int i = 0; i < strlen(strToInsert); i++) {
         m_string[i + index] = strToInsert[i];
     }
     return SUCCESS;
@@ -74,7 +79,7 @@ int BasicString::length() const{
 void BasicString::clear() {
     int length = this->length();
     for (int i = 0; i < length; i++) {
-        this->m_string[i] == '\0';
+        this->m_string[i] = '\0';
     }
 }
 
@@ -100,7 +105,7 @@ const char* BasicString::c_str() const {
     return this->m_string;
 }
 
-int BasicString::rfind(char ch, int pos = 0) {
+int BasicString::rfind(char ch, int pos=0) {
     int foundLast = NOT_FOUND;
     for (int i = pos; i < this->length(); i++) {
         if (m_string[i] == ch) {
@@ -110,7 +115,9 @@ int BasicString::rfind(char ch, int pos = 0) {
     return foundLast;
 }
 
-int BasicString::rfind(BasicString& subString, int pos = 0) {
+
+
+int BasicString::rfind(BasicString& subString, int pos=0) {
     int start = find(subString[0], pos);
     if (start == NOT_FOUND || this->length() - start < subString.length()) {
         return NOT_FOUND;
@@ -128,4 +135,27 @@ int BasicString::rfind(BasicString& subString, int pos = 0) {
         }
     }
     return foundLast;
+}
+
+
+BasicString BasicString::substr(int pos, int count) {
+    if (pos >= this->length()) {
+        throw std::out_of_range("Out of range!");
+    }
+    int end = pos + count;
+    if (end > this->length()) {
+        end = this->length();
+    }
+    char* temp = (char*)malloc(sizeof(char) * (end - pos + 1));
+    temp[end - pos + 1] = '\0';
+    for (int i = 0; i < end - pos + 1; i++) {
+        temp[i] = m_string[i + pos];
+    }
+    BasicString subString = BasicString(temp);
+    delete[] temp;
+    return subString;
+}
+
+bool BasicString::compare(const BasicString& other) {
+    return strcmp(m_string, other.m_string) == 0;
 }

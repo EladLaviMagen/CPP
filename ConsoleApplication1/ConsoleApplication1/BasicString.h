@@ -1,6 +1,7 @@
 #pragma once
 #include <string.h>
 #include <stdlib.h>
+#include <stdexcept>
 
 #define NOT_FOUND -1
 #define OUT_OF_RANGE -1
@@ -15,14 +16,14 @@ class BasicString {
     int find(char ch, int pos=0);
     int find(BasicString& subString, int pos=0);
     int rfind(char ch, int pos = 0);
-    int rfind(BasicString& subString, int pos = 0);
+    int rfind(BasicString& subString, int pos=0);
     int length() const;
     void clear();
     bool empty() const;
     void erase(int start, int count);
     const char* c_str() const;
 
-    BasicString substr();
+    BasicString substr(int pos, int count);
     bool compare(const BasicString& other);
 
     char operator[](int index);

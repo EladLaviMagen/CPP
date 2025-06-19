@@ -1,8 +1,8 @@
 #include <iostream>
-#include <string>
+#include "BasicString.h"
 
 int main()
 {
-    std::string a = "aaaaaaaaaaaaa";
+    BasicString a = BasicString("aaaaa");
     return 0;
 }
