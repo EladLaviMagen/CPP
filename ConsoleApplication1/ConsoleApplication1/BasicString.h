@@ -22,6 +22,9 @@ class BasicString {
     void erase(int start, int count);
     const char* c_str() const;
 
+    BasicString substr();
+    bool compare(const BasicString& other);
+
     char operator[](int index);
 
   private:
