@@ -17,7 +17,6 @@ int main()
     std::vector<int> vec2;
     std::transform(vec.begin() == vec.end() ? vec.begin() : std::next(vec.begin()), vec.end(), vec.cbegin(), std::back_inserter(vec2), std::minus<int>());
     std::for_each(vec2.begin(), vec2.end(), std::bind(printf, "%d ", std::placeholders::_1));
-    std::cout << std::endl;
     std::cout << std::accumulate(vec2.begin(), vec2.end(), 0) << std::endl;
     return 0;
 }
