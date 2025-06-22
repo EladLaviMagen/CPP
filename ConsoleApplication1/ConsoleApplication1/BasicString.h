@@ -9,7 +9,20 @@
 
 class BasicString {
   public:
-    BasicString(const char* string);
+    /*
+    * C'tor for Basic String
+    * :Param string: String to represent
+    */
+    explicit BasicString(const char* string);
+
+    ///D'tor for Basic String
+    ~BasicString();
+
+    /*
+    * Inserters, overloaded versions but all perform the same action :
+    * Inserts a value into string
+    * :Param index
+    */
     int insert(int index, const char ch);
     int insert(int index, const char* strToInsert);
     int insert(int index, const BasicString& strToInsert);
@@ -23,7 +36,7 @@ class BasicString {
     void erase(int start, int count);
     const char* c_str() const;
 
-    BasicString substr(int pos, int count);
+    BasicString* substr(int pos, int count);
     bool compare(const BasicString& other);
 
     char operator[](int index);

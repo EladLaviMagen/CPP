@@ -1,18 +1,30 @@
 #include "BasicString.h"
 
 BasicString::BasicString(const char* string) {
-    this->m_string = (char*)malloc(sizeof(char) * strlen(string) + 1);
-    strncpy_s(this->m_string, string);
+    this->m_string = new char[strlen(string) + 1];
+    this->m_string[strlen(string)] = '\0';
+    for (unsigned int i = 0; i < strlen(string); i++) {
+        this->m_string[i] = string[i];
+    }
+}
+
+BasicString::~BasicString() {
+    delete[] this->m_string;
 }
 
 int BasicString::insert(int index, const char ch) {
     if (index > this->length()) {
         return OUT_OF_RANGE;
     }
-    realloc(m_string, this->length() + 2);
-    m_string[this->length() + 1] = '\0';
-    for (int i = this->length() - 1; i <= index; i--) {
-        m_string[i + 1] = m_string[i];
+    BasicString temp = BasicString(this->c_str());
+    delete[] m_string;
+    m_string = new char[temp.length() + 2];
+    m_string[temp.length() + 1] = '\0';
+    for (int i = 0; i < index; i++) {
+        m_string[i] = temp[i];
+    }
+    for (int i = temp.length() - 1; i >= index; i--) {
+        m_string[i + 1] = temp[i];
     }
     m_string[index] = ch;
     return SUCCESS;
@@ -22,13 +34,18 @@ int BasicString::insert(int index, const char* strToInsert) {
     if (index > this->length()) {
         return OUT_OF_RANGE;
     }
-    realloc(m_string, this->length() + strlen(strToInsert) + 1);
-    m_string[this->length() + strlen(strToInsert) + 1] = '\0';
-    for (int i = this->length() - 1; i <= index; i--) {
-        m_string[i + strlen(strToInsert)] = m_string[i];
+    BasicString temp = BasicString(this->c_str());
+    delete[] m_string;
+    this->m_string = new char[temp.length() + strlen(strToInsert) + 1];
+    m_string[temp.length() + strlen(strToInsert)] = '\0';
+    for (int i = 0; i < index; i++) {
+        m_string[i] = temp[i];
     }
     for (unsigned int i = 0; i < strlen(strToInsert); i++) {
         m_string[i + index] = strToInsert[i];
+    }
+    for (int i = temp.length() - 1; i >= index; i--) {
+        m_string[i + strlen(strToInsert)] = temp[i];
     }
     return SUCCESS;
 }
@@ -37,7 +54,7 @@ int BasicString::insert(int index, const BasicString& strToInsert) {
     return insert(index, strToInsert.c_str());
 }
 
-int BasicString::find(char ch, int pos=0) {
+int BasicString::find(char ch, int pos) {
     for (int i = pos; i < this->length(); i++) {
         if (m_string[i] == ch) {
             return i;
@@ -46,7 +63,7 @@ int BasicString::find(char ch, int pos=0) {
     return NOT_FOUND;
 }
 
-int BasicString::find(BasicString& subString, int pos=0) {
+int BasicString::find(BasicString& subString, int pos) {
     int start = find(subString[0], pos);
     if (start == NOT_FOUND || this->length() - start < subString.length()) {
         return NOT_FOUND;
@@ -88,24 +105,25 @@ bool BasicString::empty() const {
 }
 
 void BasicString::erase(int start, int count) {
-    int end = start + count;
-    if (end > this->length()) {
-        end = this->length();
+    if (count + start > this->length()) {
+        count = this->length() - start;
     }
-    for (int i = start; i < end; i++) {
+    int keepLength = this->length();
+    for (int i = start; i < start + count; i++) {
         this->m_string[i] = '\0';
     }
-    for (int i = end; i < this->length(); i++) {
-        this->m_string[start] = m_string[i];
+    for (int i = start + count; i < keepLength; i++) {
+        this->m_string[i - count] = this->m_string[i]; 
         this->m_string[i] = '\0';
     }
+    
 }
 
 const char* BasicString::c_str() const {
     return this->m_string;
 }
 
-int BasicString::rfind(char ch, int pos=0) {
+int BasicString::rfind(char ch, int pos) {
     int foundLast = NOT_FOUND;
     for (int i = pos; i < this->length(); i++) {
         if (m_string[i] == ch) {
@@ -117,7 +135,7 @@ int BasicString::rfind(char ch, int pos=0) {
 
 
 
-int BasicString::rfind(BasicString& subString, int pos=0) {
+int BasicString::rfind(BasicString& subString, int pos) {
     int start = find(subString[0], pos);
     if (start == NOT_FOUND || this->length() - start < subString.length()) {
         return NOT_FOUND;
@@ -138,20 +156,17 @@ int BasicString::rfind(BasicString& subString, int pos=0) {
 }
 
 
-BasicString BasicString::substr(int pos, int count) {
+BasicString* BasicString::substr(int pos, int count) {
     if (pos >= this->length()) {
         throw std::out_of_range("Out of range!");
     }
-    int end = pos + count;
-    if (end > this->length()) {
-        end = this->length();
-    }
-    char* temp = (char*)malloc(sizeof(char) * (end - pos + 1));
-    temp[end - pos + 1] = '\0';
-    for (int i = 0; i < end - pos + 1; i++) {
+    int end = pos + count > this->length() ? this->length() : pos + count;
+    char* temp = new char[end - pos + 1];
+    temp[end - pos] = '\0';
+    for (int i = 0; i < end - pos; i++) {
         temp[i] = m_string[i + pos];
     }
-    BasicString subString = BasicString(temp);
+    BasicString* subString = new BasicString(temp);
     delete[] temp;
     return subString;
 }
