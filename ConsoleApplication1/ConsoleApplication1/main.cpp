@@ -4,6 +4,10 @@
 int main()
 {
     BasicString a = BasicString("aaabbb");
+    //BasicString w = BasicString("brubruhbbbh");
+    //BasicString z = BasicString("bbh");
+    //std::cout << w.find(z);
+    //TESTS!
     //a.erase(2, 2);
     //a.insert(3, 'a');
     //std::cout << a.find('b');
