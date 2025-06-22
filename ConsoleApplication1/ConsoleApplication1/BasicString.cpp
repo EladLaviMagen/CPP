@@ -34,18 +34,8 @@ int BasicString::insert(int index, const char* strToInsert) {
     if (index > this->length()) {
         return OUT_OF_RANGE;
     }
-    BasicString temp = BasicString(this->c_str());
-    delete[] m_string;
-    this->m_string = new char[temp.length() + strlen(strToInsert) + 1];
-    m_string[temp.length() + strlen(strToInsert)] = '\0';
-    for (int i = 0; i < index; i++) {
-        m_string[i] = temp[i];
-    }
     for (unsigned int i = 0; i < strlen(strToInsert); i++) {
-        m_string[i + index] = strToInsert[i];
-    }
-    for (int i = temp.length() - 1; i >= index; i--) {
-        m_string[i + strlen(strToInsert)] = temp[i];
+        this->insert(i + index, strToInsert[i]);
     }
     return SUCCESS;
 }
@@ -55,6 +45,9 @@ int BasicString::insert(int index, const BasicString& strToInsert) {
 }
 
 int BasicString::find(char ch, int pos) const {
+    if (pos < 0) {
+        throw std::out_of_range("Out of range!");
+    }
     for (int i = pos; i < this->length(); i++) {
         if (m_string[i] == ch) {
             return i;
@@ -63,20 +56,19 @@ int BasicString::find(char ch, int pos) const {
     return NOT_FOUND;
 }
 
-int BasicString::find(BasicString& subString, int pos) const {
+int BasicString::find(const BasicString& subString, int pos) const {
     int start = find(subString[0], pos);
     if (start == NOT_FOUND || this->length() - start < subString.length()) {
         return NOT_FOUND;
     }
-    for (int i = start; i < this->length(); i++) {
-        int j = i;
-        int k = 0;
-        while (k < subString.length() && j < this->length() && m_string[j] == subString[k]) {
-            j++;
-            k++;
-        }
-        if (k == subString.length()) {
-            return i;
+    for (int i = start; i <= this->length() - subString.length(); i++) {
+        if (m_string[i] == subString[0]) {
+            BasicString* testTemp = this->substr(i, subString.length());
+            if (testTemp->compare(subString)) {
+                delete testTemp;
+                return i;
+            }
+            delete testTemp;
         }
     }
     return NOT_FOUND;
@@ -124,35 +116,35 @@ const char* BasicString::c_str() const {
 }
 
 int BasicString::rfind(char ch, int pos) const {
-    int foundLast = NOT_FOUND;
-    for (int i = pos; i < this->length(); i++) {
+    if (pos < 0) {
+        throw std::out_of_range("Out of range!");
+    }
+    for (int i = this->length(); i >= pos; i--) {
         if (m_string[i] == ch) {
-            foundLast = i;
+            return i;
         }
     }
-    return foundLast;
+    return NOT_FOUND;
 }
 
 
 
-int BasicString::rfind(BasicString& subString, int pos) const {
+int BasicString::rfind(const BasicString& subString, int pos) const {
     int start = find(subString[0], pos);
     if (start == NOT_FOUND || this->length() - start < subString.length()) {
         return NOT_FOUND;
     }
-    int foundLast = NOT_FOUND;
-    for (int i = start; i < this->length(); i++) {
-        int j = i;
-        int k = 0;
-        while (k < subString.length() && j < this->length() && m_string[j] == subString[k]) {
-            j++;
-            k++;
-        }
-        if (k == subString.length()) {
-            foundLast = i;
+    for (int i = this->length() - subString.length(); i >= start; i--) {
+        if (m_string[i] == subString[0]) {
+            BasicString* testTemp = this->substr(i, subString.length());
+            if (testTemp->compare(subString)) {
+                delete testTemp;
+                return i;
+            }
+            delete testTemp;
         }
     }
-    return foundLast;
+    return NOT_FOUND;
 }
 
 

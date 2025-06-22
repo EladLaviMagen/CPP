@@ -38,7 +38,7 @@ class BasicString {
     */
     int find(char ch, int pos=0) const;
     /// Overload, does the same but with a substring to search for
-    int find(BasicString& subString, int pos=0) const;
+    int find(const BasicString& subString, int pos = 0) const;
 
     /*
      * Finds first occurance of a character in a string from right to left
@@ -48,7 +48,7 @@ class BasicString {
      */
     int rfind(char ch, int pos = 0) const;
     /// Overload, does the same but with a substring to search for
-    int rfind(BasicString& subString, int pos=0) const;
+    int rfind(const BasicString& subString, int pos = 0) const;
 
     /// Returns length of string
     int length() const;
