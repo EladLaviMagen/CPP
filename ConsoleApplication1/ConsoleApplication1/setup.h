@@ -1,26 +1,18 @@
 #pragma once
-#include <Windows.h>
 #include <stdio.h>
+#include "regKey.h"
 
 #define SUBKEY "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
 #define PROGRAM_NAME "Management Program"
 
 /*
-* Function checks and retrieves mutex
-* :Param mutexName: The name of the mutex to check
-* :Return: HANDLE for mutex or NULL if already taken
+* Gets the path of the running program
+* :Param buffer: [OUT] buffer which path will be put into - max size is MAX_PATH
+* :Param len: [IN] maximum size of buffer
 */
-HANDLE checkMutex(const char* mutexName);
-
-/*
-* Shows what error occured in functionm
-* :Param err: error code
-*/
-void showError(LSTATUS err);
+void getPath(char* buffer, int len);
 
 /*
 * Performs the regex setup if needed
-* :Return: TRUE if setup was successful and program is set up properly in regex, FALSE otherwise
-* (Error message will printed upon failure)
 */
-BOOL setupRegex();
+void setupRegex();
