@@ -6,6 +6,10 @@
 class MutexLock
 {
 public:
+	/*
+	* C'tor for MutexLock
+	* :Param name: Name of mutex
+	*/
 	MutexLock(LPCSTR name);
 	~MutexLock();
 private:
