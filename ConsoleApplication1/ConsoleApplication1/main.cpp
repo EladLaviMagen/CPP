@@ -1,13 +1,16 @@
+#include <iostream>
 #include <stdio.h>
+//#include "Communicator.h"
 #include "setup.h"
 #include "MutexLock.h"
 
-#define MUTEX_NAME "mutex_single_program"
-#define MESSAGE "MANAGEMENT PROGRAM IS UP"
-#define SLEEP_TIME 3600000
+
+const std::string MUTEX_NAME = "mutex_single_program";
+const std::string MESSAGE = "MANAGEMENT PROGRAM IS UP";
+const int SLEEP_TIME = 3600000;
 
 
-void showMessageBox(LPCSTR text, LPCSTR title);
+void showMessageBox(std::string text, std::string title);
 
 int main()
 {   
@@ -18,11 +21,14 @@ int main()
         showMessageBox(MESSAGE, PROGRAM_NAME);
         Sleep(SLEEP_TIME);
     }
-    catch (AnotherInstanceRunningException ex){
-        printf("%s", ex.what());
+    catch (const AnotherInstanceRunningException ex ){
+        std::cout << ex.what() << std::endl;
     }
-    catch (RegexException ex) {
-        printf("%s", ex.what());
+    catch (const RegexException ex) {
+        std::cout << ex.what() << std::endl;
+    }
+    catch (const MutexException ex) {
+        std::cout << ex.what() << std::endl;
     }
     return 0;
 }
@@ -32,6 +38,6 @@ int main()
 * :Param text: Text to be shown in the textbox
 * :Param title: Title of textbox
 */
-void showMessageBox(LPCSTR text, LPCSTR title) {
-    MessageBoxA(NULL, text, title, MB_OK);
+void showMessageBox(std::string text, std::string title) {
+    MessageBoxA(NULL, text.c_str(), title.c_str(), MB_OK);
 }

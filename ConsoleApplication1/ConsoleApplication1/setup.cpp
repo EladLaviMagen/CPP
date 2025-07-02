@@ -1,20 +1,21 @@
 #include "setup.h"
 
-void getPath(char* buffer, int len) {
-    GetModuleFileNameA(NULL, buffer, MAX_PATH);
+std::string getPath() {
+    std::string buffer;
+    buffer.resize(MAX_PATH);
+    GetModuleFileNameA(NULL, &(buffer[0]), MAX_PATH);
+    return buffer;
 }
 
 void setupRegex() {
     RegKey key(SUBKEY, KEY_ALL_ACCESS);
-    CHAR path[MAX_PATH];
-    getPath(path, MAX_PATH);
-    CHAR currentValue[MAX_PATH];
-    CHAR name[MAX_PATH];
+    std::string path = getPath();
+    std::string currentValue;
     DWORD type = REG_SZ;
     DWORD len = MAX_PATH;
-    LSTATUS res = regGetVal(key.getKey(), PROGRAM_NAME, currentValue, &type, &len);
-    if (res == ERROR_FILE_NOT_FOUND || strcmp(path, currentValue) != 0) {
-        regSetVal(key.getKey(), PROGRAM_NAME, path);
+    LSTATUS res = key.regGetVal(PROGRAM_NAME, currentValue, &type, &len);
+    if (res == ERROR_FILE_NOT_FOUND || path != currentValue) {
+        key.regSetVal(PROGRAM_NAME, path);
     }
 }
     
